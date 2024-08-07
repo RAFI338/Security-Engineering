@@ -1,0 +1,145 @@
+1. pyupio/safety:
+
+docker pull pyupio/safety
+
+docker run --rm -v $(pwd):/project -w /project pyupio/safety safety check -r requirements.txt
+
+--rm: Automatically remove the container after it exits.
+-v $(pwd):/project: Mount the current directory into the container at /project.
+-w /project: Set the working directory inside the container to /project.
+pyupio/safety: The Docker image to use.
+safety check -r requirements.txt: The command to run inside the container, which checks the dependencies listed in requirements.txt for vulnerabilities.
+
+
+2.Retire.js
+
+docker pull retirejs/retire.js
+
+docker run --rm -v $(pwd):/app -w /app retirejs/retire.js --path /app
+
+--rm: Automatically remove the container after it exits.
+-v $(pwd):/app: Mount the current directory into the container at /app.
+-w /app: Set the working directory inside the container to /app.
+retirejs/retire.js: The Docker image to use.
+--path /app: The path to scan for vulnerabilities.
+
+3.pip-audit
+
+pip install pip-audit
+pip-audit
+
+4. OWASP Dependency checck
+
+docker pull owasp/dependency-check
+
+java-
+docker run --rm \
+  -v $(pwd):/src \
+  -v $(pwd)/odc-reports:/report \
+  owasp/dependency-check \
+  --project "My Project" --scan /src --out /report
+
+node.js-
+docker run --rm \
+  -v $(pwd):/src \
+  -v $(pwd)/odc-reports:/report \
+  owasp/dependency-check \
+  --project "My Node.js Project" --scan /src --out /report --nsp
+
+pip-
+docker run --rm \
+  -v $(pwd):/src \
+  -v $(pwd)/odc-reports:/report \
+  owasp/dependency-check \
+  --project "My Python Project" --scan /src --out /report --enableExperimental --scanPipfile
+
+--rm: Automatically removes the container after it exits.
+-v $(pwd):/src: Mounts the current directory to /src in the container.
+-v $(pwd)/odc-reports:/report: Mounts a directory for reports.
+--project "My Project": Specifies the project name.
+--scan /src: Specifies the directory to scan.
+--out /report: Specifies the output directory for the reports.
+
+5.snyk
+
+docker pull snyk/snyk-cli
+
+docker run --rm -v $(pwd):/project -w /project snyk/snyk-cli test
+
+6.npm-audit
+
+npm audit
+npm audit fix
+npm audit fix --force
+
+
+7.Audit js
+
+npm install -g auditjs
+
+auditjs -r
+
+docker run --rm -v $(pwd):/app -w /app sonatypecommunity/nancy:latest /app/package-lock.json
+
+--rm: Automatically remove the container after it exits.
+-v $(pwd):/app: Mount the current directory to /app in the container.
+-w /app: Set the working directory inside the container to /app.
+sonatypecommunity/nancy:latest: Use the Nancy Docker image, which is used by AuditJS.
+
+8.Bundler-audit
+
+gem install bundler-audit
+
+bundler-audit
+
+bundle update <gem_name>
+
+
+9.Composer Audit
+
+composer require sensiolabs/security-checker --dev
+
+composer audit
+
+10.Renovate
+
+docker run --rm -v $(pwd):/mnt renovate/renovate
+--rm: Automatically remove the container after it exits.
+-v $(pwd):/mnt: Mount the current directory to /mnt in the container.
+
+11.Dependabot
+
+used only for github actions
+
+12.OSV-Scanner
+
+pip install osv-scanner
+osv-scanner --path /path/to/your/project
+
+
+13. semgrep
+pip install semgrep
+
+semgrep --config <rule_file> <path_to_code>
+docker run --rm -v $(pwd):/src semgrep/semgrep --config <rule_file> /src
+
+
+14.Trivy
+
+docker pull aquasec/trivy
+trivy fs <path_to_directory>
+
+trivy repo https://github.com/myorg/myrepo.git
+
+15.sandworm
+
+docker pull sandworm/sandworm
+
+
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock sandworm/sandworm scan python:3.8
+sandworm scan <path_to_directory>
+
+
+
+
+
